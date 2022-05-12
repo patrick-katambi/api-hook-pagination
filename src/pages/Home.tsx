@@ -4,7 +4,6 @@ import { MainContainer } from "../components/main-container";
 import { Paragraph } from "../components/paragraph";
 import { Span } from "../components/span";
 import { Title } from "../components/title";
-import { log } from "../functions/console-log";
 import { useXHR } from "../hooks/use-XHR";
 import gif from "../assets/loading.gif";
 
@@ -18,7 +17,7 @@ export default function Home() {
   if (postsLoading && todosLoading) {
     return (
       <MainContainer>
-        <img style={{ margin: "auto", height: 200, width: 200 }} src={gif} />
+        <img style={{ margin: "auto", height: 200, width: 200 }} src={gif} alt="" />
       </MainContainer>
     );
   } else {
@@ -27,14 +26,14 @@ export default function Home() {
     const { slicedData: postList, pageArray: postsPageArray } =
       paginationConstructor({
         data: Array.isArray(posts) ? posts : [],
-        itemsPerPage: 15,
+        itemsPerPage: itemsPerPage,
         currentPageNumber: postsCurrentPage,
       });
 
     const { slicedData: todoList, pageArray: todosPageArray } =
       paginationConstructor({
         data: Array.isArray(todos) ? todos : [],
-        itemsPerPage: 13,
+        itemsPerPage: itemsPerPage,
         currentPageNumber: todosCurrentPage,
       });
 
@@ -67,7 +66,7 @@ export default function Home() {
             )}
           </Container>
 
-          {/* <Container>
+          <Container>
             <Title>Todos</Title>
             {todoList && Array.isArray(todoList) ? (
               <Listing
@@ -79,7 +78,7 @@ export default function Home() {
             ) : (
               ""
             )}
-          </Container> */}
+          </Container>
         </MainContainer>
       </>
     );
