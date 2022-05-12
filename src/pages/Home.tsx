@@ -50,7 +50,7 @@ export default function Home() {
             backgroundColor: "transparent",
           }}
         >
-          Custom API Hook & pagination in workshop
+          Custom API Hook & pagination workshop.
         </Title>
         <MainContainer>
           <Container>
