@@ -22,44 +22,32 @@ export default function Home() {
       </MainContainer>
     );
   } else {
-    /**
-     * pagination algorithm
-     */
     const itemsPerPage = 15;
 
-    const totalPosts = Array.isArray(posts) ? posts.length : 0;
-    const postsPageCount = Math.ceil(totalPosts / itemsPerPage);
-    const postsStartIndex = postsCurrentPage * itemsPerPage - itemsPerPage + 1;
-    const postsEndIndex = postsCurrentPage * itemsPerPage;
-    const postList = Array.isArray(posts)
-      ? posts.slice(postsStartIndex - 1, postsEndIndex)
-      : [];
+    const { slicedData: postList, pageArray: postsPageArray } =
+      paginationConstructor({
+        data: Array.isArray(posts) ? posts : [],
+        itemsPerPage: 15,
+        currentPageNumber: postsCurrentPage,
+      });
 
-    let postsPageArray = [];
-    for (let index = 0; index < postsPageCount; index++) {
-      postsPageArray.push(index + 1);
-    }
-
-    const totalTodos = Array.isArray(todos) ? todos.length : 0;
-    const todosPageCount = Math.ceil(totalTodos / itemsPerPage);
-    const todosStartIndex = todosCurrentPage * itemsPerPage - itemsPerPage + 1;
-    const todosEndIndex = todosCurrentPage * itemsPerPage;
-    const todoList = Array.isArray(todos)
-      ? todos.slice(todosStartIndex - 1, todosEndIndex)
-      : [];
-
-    let todosPageArray = [];
-    for (let index = 0; index < todosPageCount; index++) {
-      todosPageArray.push(index + 1);
-    }
+    const { slicedData: todoList, pageArray: todosPageArray } =
+      paginationConstructor({
+        data: Array.isArray(todos) ? todos : [],
+        itemsPerPage: 13,
+        currentPageNumber: todosCurrentPage,
+      });
 
     return (
       <>
         <Title
           style={{
+            width: "fit-content",
             margin: "50px 0 0 10%",
             fontSize: "xx-large",
             color: "#fff",
+            padding: 0,
+            backgroundColor: "transparent",
           }}
         >
           Custom API Hook & pagination in workshop
@@ -68,57 +56,60 @@ export default function Home() {
           <Container>
             <Title>Posts</Title>
             {postList && Array.isArray(postList) ? (
-              <>
-                {postList.map((post: any) => {
-                  return (
-                    <Paragraph key={post.id}>
-                      <Span>{post.id}.</Span>
-                      {post.title}
-                    </Paragraph>
-                  );
-                })}
-                <PaginationComponent
-                  pageArray={postsPageArray}
-                  currentPage={postsCurrentPage}
-                  setCurrentPage={setpostsCurrentPage}
-                />
-              </>
+              <Listing
+                list={postList}
+                pageArray={postsPageArray}
+                currentPage={postsCurrentPage}
+                pageSetter={setpostsCurrentPage}
+              />
             ) : (
               ""
             )}
           </Container>
 
-          <Container>
+          {/* <Container>
             <Title>Todos</Title>
             {todoList && Array.isArray(todoList) ? (
-              <>
-                {todoList.map((todo: any) => {
-                  return (
-                    <Paragraph key={todo.id}>
-                      <Span>{todo.id}.</Span>
-                      {todo.title}
-                    </Paragraph>
-                  );
-                })}
-                <PaginationComponent
-                  pageArray={todosPageArray}
-                  currentPage={todosCurrentPage}
-                  setCurrentPage={setTodosCurrentPage}
-                />
-              </>
+              <Listing
+                list={todoList}
+                pageArray={todosPageArray}
+                currentPage={todosCurrentPage}
+                pageSetter={setTodosCurrentPage}
+              />
             ) : (
               ""
             )}
-          </Container>
+          </Container> */}
         </MainContainer>
       </>
     );
   }
 }
 
-/**
- * pagination component
- */
+function paginationConstructor({
+  data,
+  itemsPerPage,
+  currentPageNumber,
+}: {
+  data: [];
+  itemsPerPage: number;
+  currentPageNumber: number;
+}) {
+  const startIndex = currentPageNumber * itemsPerPage - itemsPerPage + 1;
+  const endIndex = currentPageNumber * itemsPerPage;
+  const slicedData = data.slice(startIndex - 1, endIndex);
+
+  const totalData = data.length;
+  const pageCount = Math.ceil(totalData / itemsPerPage);
+
+  let pageArray = [];
+  for (let index = 0; index < pageCount; index++) {
+    pageArray.push(index + 1);
+  }
+
+  return { slicedData, pageArray };
+}
+
 const PaginationComponent = ({
   pageArray,
   currentPage,
@@ -135,7 +126,7 @@ const PaginationComponent = ({
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           marginTop: 30,
         }}
       >
@@ -165,3 +156,33 @@ const PaginationComponent = ({
     </>
   );
 };
+
+function Listing({
+  list,
+  pageArray,
+  currentPage,
+  pageSetter,
+}: {
+  list: any[];
+  pageArray: number[];
+  currentPage: number;
+  pageSetter: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  return (
+    <>
+      {list.map((item: any) => {
+        return (
+          <Paragraph key={item.id}>
+            <Span>{item.id}.</Span>
+            {item.title}
+          </Paragraph>
+        );
+      })}
+      <PaginationComponent
+        pageArray={pageArray}
+        currentPage={currentPage}
+        setCurrentPage={pageSetter}
+      />
+    </>
+  );
+}
