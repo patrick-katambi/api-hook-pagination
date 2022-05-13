@@ -1,6 +1,12 @@
+# Custom `stuffs` with `react js`
+
+## `API hook and Pagination`
+
 ![alt text](https://github.com/patrick-katambi/api-hook-pagination/blob/main/image.PNG?raw=true)
 
-# Custom API hook and Pagination with `react js`
+## `select dropdown`
+
+![alt text](https://github.com/patrick-katambi/api-hook-pagination/blob/main/select-preview.PNG?raw=true)
 
 ## Installation
 
