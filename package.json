@@ -13,6 +13,7 @@
     "@types/styled-components": "^5.1.25",
     "axios": "^0.27.2",
     "react": "^18.1.0",
+    "react-advanced-click-away": "^2.1.5",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",

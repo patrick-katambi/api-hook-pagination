@@ -1,8 +1,12 @@
 import React from "react";
-import Home from "./pages/Home";
+import { Select } from "./pages/Select";
 
 function App() {
-  return <Home />
+  return (
+    <>
+      <Select categories={["Animation", "Sci-fi", "Thriller"]} />
+    </>
+  );
 }
 
 export default App;

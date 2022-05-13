@@ -51,7 +51,7 @@ export default function Home() {
         >
           Custom API Hook & pagination workshop.
         </Title>
-        <MainContainer>
+        <MainContainer style={{flexDirection: 'column'}}>
           <Container>
             <Title>Posts</Title>
             {postList && Array.isArray(postList) ? (
@@ -67,7 +67,7 @@ export default function Home() {
           </Container>
 
           <Container>
-            <Title>Todos</Title>
+            <Title style={{marginTop: 20}}>Todos</Title>
             {todoList && Array.isArray(todoList) ? (
               <Listing
                 list={todoList}
